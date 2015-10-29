@@ -1,0 +1,12 @@
+creating the SSH keys:
+
+ON BACKUP SERVER:
+ssh-keygen -t rsa
+
+SENDING THE KEY TO THE LAMP SERVER
+ON BACKUP SERVER:
+
+cat id_rsa.pub |ssh christophercontonio@10.0.5.90 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+
+
+Keys created and stored successfully. 
