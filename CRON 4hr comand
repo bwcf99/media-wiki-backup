@@ -1,0 +1,4 @@
+crontab -l 
+2
+
+0 0,4,8,12,16,20 * * * /command.sh
