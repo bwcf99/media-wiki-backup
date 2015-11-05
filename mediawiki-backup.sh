@@ -1,20 +1,33 @@
 #!/bin/bash
+# Authors:
+# Brent Fagersten
+# Parker Desborough
+# Christopher Contonio
+# Joseph Soens
+
 
 ### CONFIG ###
 
-#MySQL Config#
+# MySQL Config #
 mysql_host="localhost"
 mysql_User="root"
 mysql_Password="root"
 mysql_DB="mediawiki"
 date=$(date +"%y-%m-%d-%H-%M-%S")
 
-#Backup Paths#
+# Remote Backup Paths #
 mysql_backup_path="/home/human/backups"
-wikiDirBackup="/home/human/backups"
+wikiHtmlBackup="/home/human/backups"
 
-#Wiki Path
+# Remote Server Credentials #
+remoteHost="localhost"
+remoteHost_username="human"
+
+# Wiki Path
 wikiPath="/var/www/mediawiki"
+
+
+### END CONFIG ###
 
 
 ### MySQL Backup ###
@@ -24,21 +37,42 @@ umask 177
 
 # Dump DB into SQL file #
 echo "Dumping DB into SQL file"
-mysqldump --user=$mysql_User --password=$mysql_Password --host=$mysql_host $mysql_DB > $mysql_backup_path/wiki-db.$date.sql
+mkdir /tmp/wikiBackup/
+mysqldump --user=$mysql_User --password=$mysql_Password --host=$mysql_host $mysql_DB > /tmp/wikiBackup/wiki-db.dump.sql
+echo "Compressing SQL Dump"
 
-#Remove backups older than 30 days #
-echo "Deleting all backups older than 30 days"
+tar zcf /tmp/wikiBackup/wiki-db.$date.tar.gz /tmp/wikiBackup/wiki-db.dump.sql
+rm -rf /tmp/wikiBackup/wiki-db.dump.sql
 
-find $mysql_backup_path/* -mtime +30 -exec rm {} \;
-find $wikiDirBackup/* -mtime +30 -exec rm {} \;
+# Remove backups older than 30 days ### No longer working for remote hosts
+#echo "Deleting all backups older than 30 days"
 
-echo "End MySQL Backup - Start Local File Backup"
+#find $mysql_backup_path/* -mtime +30 -exec rm {} \;
+#find $wikiHtmlBackup/* -mtime +30 -exec rm {} \;
+
+#echo "End MySQL Backup - Start Local File Backup"
+
+### END MySQL Backup ###
+
+echo "starting local file backup"
+
 
 ### Wiki Directory Backup ###
 echo ""
-echo "Starting the local backup - This may take a few moments!"
-tar cfz $wikiDirBackup/wiki-html.$date.tar.gz $wikiPath
+echo "Starting the local HTML backup - This may take a few moments!"
+tar cfz /tmp/wikiBackup/wiki-html.$date.tar.gz $wikiPath
 echo "Backed up and compressed the local wiki files"
+
+
+
+### Export Backups ###
+echo "Exporting backups to remote server"
+scp /tmp/wikiBackup/wiki-html.* $remoteHost_username@$remoteHost:$wikiHtmlBackup
+scp /tmp/wikiBackup/wiki-db.* $remoteHost_username@$remoteHost:$mysql_backup_path
+
+rm -rf /tmp/wikiBackup
+echo "Backups exported!"
+
 
 echo "############################"
 echo "# ~Wiki Backup Complete!!~ #"
