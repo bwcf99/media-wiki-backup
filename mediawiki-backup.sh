@@ -7,10 +7,10 @@ mysql_host="localhost"
 mysql_User="root"
 mysql_Password="root"
 mysql_DB="mediawiki"
-date=$(date +"%d-%b-%y")
+date=$(date +"%y-%m-%d-%H-%M-%S")
 
 #Backup Paths#
-mysql_backup_path="/home/backup/mysqlbackups"
+mysql_backup_path="/home/human/backups"
 
 
 ### MySQL Backup ###
@@ -19,8 +19,10 @@ mysql_backup_path="/home/backup/mysqlbackups"
 umask 177
 
 # Dump DB into SQL file #
-mysqldump --user=$mysql_User --password=$mysql_Password --host=$mysql_host $db_name > $mysql_backup_path/$mysql_DB-$date.sql
+echo "Dumping DB into SQL file"
+mysqldump --user=$mysql_User --password=$mysql_Password --host=$mysql_host $mysql_DB > $mysql_backup_path/$mysql_DB-$date.sql
 
 #Remove backups older than 30 days #
-find $mysql_backup_path/* -mtime +30 -exec rm () \;
+echo "Deleting all backups older than 30 days"
 
+find $mysql_backup_path/* -mtime +30 -exec rm {} \;
