@@ -14,5 +14,11 @@ This backup solution will backup the mysql DB and HTML files for media wiki.
 
 ## Configuration
 Edit the configuration section at the top of the mediawiki-backup.sh file to match your needs.
+1. MySQL Config: change to match the MySQL config
+2. Date Format: Change the date format. Guide: http://www.cyberciti.biz/faq/linux-unix-formatting-dates-for-display/
+3. Remote Backup Paths: The path you would like the backups to be stored to on the remote server.
+4. Remote Server Credentials: The hostname/username for the remote backup storage server
+5. Wikipath: The installation path of Media Wiki
+
 
 Notice: Without SSH Keys backups will not be automatic!
