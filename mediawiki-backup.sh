@@ -44,13 +44,13 @@ echo "Compressing SQL Dump"
 tar zcf /tmp/wikiBackup/wiki-db.$date.tar.gz /tmp/wikiBackup/wiki-db.dump.sql
 rm -rf /tmp/wikiBackup/wiki-db.dump.sql
 
-# Remove backups older than 30 days ### No longer working for remote hosts
-#echo "Deleting all backups older than 30 days"
+# Remove backups older than 7 days ### No longer working for remote hosts
+echo "Deleting all backups older than 7 days"
 
-#find $mysql_backup_path/* -mtime +30 -exec rm {} \;
-#find $wikiHtmlBackup/* -mtime +30 -exec rm {} \;
+ssh $remoteHost@$remoteHost_username find $mysql_backup_path/* -mtime +7 -exec rm {} \;
+ssh $remoteHost@$remoteHost_username find $wikiHtmlBackup/* -mtime +7 -exec rm {} \;
 
-#echo "End MySQL Backup - Start Local File Backup"
+echo "End MySQL Backup - Start Local File Backup"
 
 ### END MySQL Backup ###
 
