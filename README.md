@@ -28,7 +28,7 @@ Notice: Without SSH Keys backups will not be automatic!
 ## Team Breakdown
 Cron Job: Parker D
 
-SSH Keys and linux dev Environemnt: Christopher C
+SSH Keys and linux dev Environment: Christopher C
 
 Backup Script: Brent F
 
