@@ -23,13 +23,3 @@ Edit the configuration section at the top of the mediawiki-backup.sh file to mat
 
 
 Notice: Without SSH Keys backups will not be automatic!
-
-
-## Team Breakdown
-Cron Job: Parker D
-
-SSH Keys and linux dev Environment: Christopher C
-
-Backup Script: Brent F
-
-Technical Writer: Joseph S
