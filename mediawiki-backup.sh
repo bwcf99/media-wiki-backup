@@ -1,6 +1,7 @@
 #!/bin/bash
 # Authors:
 # Brent Fagersten
+# Group Members: 
 # Parker Desborough
 # Christopher Contonio
 # Joseph Soens
